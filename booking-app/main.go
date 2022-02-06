@@ -39,7 +39,10 @@ func main() {
 		isValidEmail := strings.Contains(email, "@")
 		isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
 
-		if userTickets < remainingTickets {
+		// isValidCity := city == "London" || city == "Singapore"
+		// !isValidCity
+
+		if isValidName && isValidEmail && isValidTicketNumber {
 			remainingTickets -= userTickets
 			// bookings[0] = firstName + " " + lastName
 			bookings = append(bookings, firstName+" "+lastName)
@@ -70,7 +73,8 @@ func main() {
 			// do something else
 			continue
 		} else {
-			fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets.\n", remainingTickets, userTickets)
+			// fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets.\n", remainingTickets, userTickets)
+			fmt.Printf("Your input data is invalid, try again.\n")
 			continue
 		}
 
