@@ -10,9 +10,7 @@ func main() {
 	const conferenceTicket = 50
 	var remainingTickets uint = 50
 
-	fmt.Printf("Welcome to %v booking application.\n", conferenceName)
-	fmt.Printf("We have total of %v tickets and %v are still available.\n", remainingTickets, conferenceTicket)
-	fmt.Println("Get your tickets here to attend")
+	greetUser(conferenceName, remainingTickets, conferenceTicket)
 
 	// infinite loop
 	for {
@@ -106,4 +104,10 @@ func main() {
 	// 	fmt.Println("No valid city selected.")
 	// }
 
+}
+
+func greetUser(confName string, remainingTickets uint, conferenceTicket uint) {
+	fmt.Printf("Welcome to %v booking application.\n", confName)
+	fmt.Printf("We have total of %v tickets and %v are still available.\n", remainingTickets, conferenceTicket)
+	fmt.Println("Get your tickets here to attend")
 }
