@@ -3,6 +3,8 @@ package main
 import (
 	"booking-app/helper"
 	"fmt"
+	"sync"
+	"time"
 )
 
 const conferenceTicket uint = 50
@@ -18,74 +20,79 @@ type UserData struct {
 	numberOfTickets uint
 }
 
+var wg = sync.WaitGroup{}
+
 func main() {
 
 	greetUser()
 
 	// infinite loop
-	for {
+	// for {
 
-		firstName, lastName, email, userTickets := getUserInput()
+	firstName, lastName, email, userTickets := getUserInput()
 
-		// import from helper package. capitalize letter function name
-		isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
+	// import from helper package. capitalize letter function name
+	isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
-		// isValidCity := city == "London" || city == "Singapore"
-		// !isValidCity
+	// isValidCity := city == "London" || city == "Singapore"
+	// !isValidCity
 
-		if isValidName && isValidEmail && isValidTicketNumber {
+	if isValidName && isValidEmail && isValidTicketNumber {
 
-			bookTicket(remainingTickets, userTickets, firstName, lastName, conferenceName, email)
+		bookTicket(remainingTickets, userTickets, firstName, lastName, conferenceName, email)
 
-			// call function print first name
-			firstNames := getFirstNames()
-			fmt.Printf("The first names of our whole bookings are: %v\n", firstNames)
+		wg.Add(1)
+		go sendTicket(userTickets, firstName, lastName, email)
 
-			noTicketRemaining := remainingTickets <= 0
+		// call function print first name
+		firstNames := getFirstNames()
+		fmt.Printf("The first names of our whole bookings are: %v\n", firstNames)
 
-			if noTicketRemaining {
-				// end program
-				fmt.Println("Our conference is booked out. Come back next year.")
-				break
-			}
-		} else if userTickets == remainingTickets {
-			// do something else
-			continue
-		} else {
-			// fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets.\n", remainingTickets, userTickets)
-			if !isValidName {
-				fmt.Printf("First name or last name you entered is too short.\n")
-			}
+		noTicketRemaining := remainingTickets <= 0
 
-			if !isValidEmail {
-				fmt.Printf("Email address you entered does't contain '@' sign\n")
-			}
-
-			if !isValidTicketNumber {
-				fmt.Printf("Number of tickets you entered is invalid. \n")
-			}
-			fmt.Printf("Your input data is invalid, try again.\n")
-			continue
+		if noTicketRemaining {
+			// end program
+			fmt.Println("Our conference is booked out. Come back next year.")
+			// break
+		}
+	} else if userTickets == remainingTickets {
+		// do something else
+		// continue
+	} else {
+		// fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets.\n", remainingTickets, userTickets)
+		if !isValidName {
+			fmt.Printf("First name or last name you entered is too short.\n")
 		}
 
+		if !isValidEmail {
+			fmt.Printf("Email address you entered does't contain '@' sign\n")
+		}
+
+		if !isValidTicketNumber {
+			fmt.Printf("Number of tickets you entered is invalid. \n")
+		}
+		fmt.Printf("Your input data is invalid, try again.\n")
+		// continue
 	}
-
-	// city := "Loondon"
-
-	// switch city {
-	// case "New York":
-	// 	// executes code for booking new york conference tickets.
-	// case "Singapore":
-	// 	// execute code for booking singapore conference tickets
-	// case "HongKong", "London":
-	// 	// execute code for booking singapore conference tickets
-	// case "Mexico city":
-	// 	// execute code for booking singapore conference tickets
-	// default:
-	// 	fmt.Println("No valid city selected.")
-	// }
-
+	wg.Wait()
 }
+
+// city := "Loondon"
+
+// switch city {
+// case "New York":
+// 	// executes code for booking new york conference tickets.
+// case "Singapore":
+// 	// execute code for booking singapore conference tickets
+// case "HongKong", "London":
+// 	// execute code for booking singapore conference tickets
+// case "Mexico city":
+// 	// execute code for booking singapore conference tickets
+// default:
+// 	fmt.Println("No valid city selected.")
+// }
+
+// }q
 
 func greetUser() {
 	fmt.Printf("Welcome to %v booking application.\n", conferenceName)
@@ -146,4 +153,13 @@ func bookTicket(remainingTickets uint, userTickets uint, firstName string, lastN
 
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v.\n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+}
+
+func sendTicket(userTickets uint, firstName string, lastName string, email string) {
+	time.Sleep(10 * time.Second)
+	var ticket = fmt.Sprintf("%v tickets for %v %v\n", userTickets, firstName, lastName)
+	fmt.Println("#############")
+	fmt.Printf("Sending ticket %v to email address %v\n", ticket, email)
+	fmt.Println("#############")
+	wg.Done()
 }
