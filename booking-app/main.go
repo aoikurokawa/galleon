@@ -24,17 +24,8 @@ func main() {
 		// !isValidCity
 
 		if isValidName && isValidEmail && isValidTicketNumber {
-			remainingTickets -= userTickets
-			// bookings[0] = firstName + " " + lastName
-			bookings = append(bookings, firstName+" "+lastName)
 
-			// fmt.Printf("The whole slice: %v\n", bookings)
-			// fmt.Printf("The first value: %v\n", bookings[0])
-			// fmt.Printf("Slice value: %T\n", bookings)
-			// fmt.Printf("Slice length: %v\n", len(bookings))
-
-			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v.\n", firstName, lastName, userTickets, email)
-			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+			bookTicket(remainingTickets, userTickets, bookings, firstName, lastName, conferenceName, email)
 
 			// call function print first name
 			firstNames := getFirstNames(bookings)
@@ -130,4 +121,18 @@ func getUserInput() (string, string, string, uint) {
 
 	return firstName, lastName, email, userTickets
 
+}
+
+func bookTicket(remainingTickets uint, userTickets uint, bookings []string, firstName string, lastName string, conferenceName string, email string) {
+	remainingTickets -= userTickets
+	// bookings[0] = firstName + " " + lastName
+	bookings = append(bookings, firstName+" "+lastName)
+
+	// fmt.Printf("The whole slice: %v\n", bookings)
+	// fmt.Printf("The first value: %v\n", bookings[0])
+	// fmt.Printf("Slice value: %T\n", bookings)
+	// fmt.Printf("Slice length: %v\n", len(bookings))
+
+	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v.\n", firstName, lastName, userTickets, email)
+	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 }
