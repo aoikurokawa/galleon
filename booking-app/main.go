@@ -74,10 +74,36 @@ func main() {
 			continue
 		} else {
 			// fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets.\n", remainingTickets, userTickets)
+			if !isValidName {
+				fmt.Printf("First name or last name you entered is too short.\n")
+			}
+
+			if !isValidEmail {
+				fmt.Printf("Email address you entered does't contain '@' sign\n")
+			}
+
+			if !isValidTicketNumber {
+				fmt.Printf("Number of tickets you entered is invalid. \n")
+			}
 			fmt.Printf("Your input data is invalid, try again.\n")
 			continue
 		}
 
 	}
+
+	// city := "Loondon"
+
+	// switch city {
+	// case "New York":
+	// 	// executes code for booking new york conference tickets.
+	// case "Singapore":
+	// 	// execute code for booking singapore conference tickets
+	// case "HongKong", "London":
+	// 	// execute code for booking singapore conference tickets
+	// case "Mexico city":
+	// 	// execute code for booking singapore conference tickets
+	// default:
+	// 	fmt.Println("No valid city selected.")
+	// }
 
 }
