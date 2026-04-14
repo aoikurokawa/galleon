@@ -4,7 +4,7 @@ import {
   type TransactionSigner,
 } from "@solana/kit";
 import { SYSTEM_PROGRAM_ADDRESS } from "@solana-program/system";
-import { fetchCfg, getPayForRelayInstruction } from "@base/bridge/base-relayer";
+import { fetchCfg, getPayForRelayInstruction } from "@/lib/codama/base-relayer";
 
 import { CONFIGS, type DeployEnv } from "./constants";
 import { getBaseRelayerCfgPda, getMtrPda } from "./pda";

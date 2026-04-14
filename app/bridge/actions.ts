@@ -15,7 +15,7 @@ import {
   http,
   type Hex,
 } from "viem";
-import { fetchOutgoingMessage } from "@base/bridge/bridge";
+import { fetchOutgoingMessage } from "@/lib/codama/bridge";
 import { CONFIGS, type DeployEnv } from "@/lib/bridge/constants";
 
 const SUCCESSES_ABI = [

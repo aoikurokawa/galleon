@@ -29,7 +29,7 @@ import {
 import { SYSTEM_PROGRAM_ADDRESS } from "@solana-program/system";
 import { isAddress as isEvmAddress, toBytes } from "viem";
 
-import { fetchBridge, getBridgeSplInstruction } from "@base/bridge/bridge";
+import { fetchBridge, getBridgeSplInstruction } from "@/lib/codama/bridge";
 import { DEPLOY_ENVS, CONFIGS, type DeployEnv } from "@/lib/bridge/constants";
 import { getBridgePda, getTokenVaultPda, getOutgoingMessagePda } from "@/lib/bridge/pda";
 import { buildPayForRelayInstruction } from "@/lib/bridge/payForRelay";

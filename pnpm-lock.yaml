@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@base/bridge':
-        specifier: file:../bridge/clients/ts
-        version: file:../bridge/clients/ts(@solana/kit@6.8.0(typescript@5.9.3))
       '@solana-program/system':
         specifier: ^0.12.0
         version: 0.12.0(@solana/kit@6.8.0(typescript@5.9.3))
@@ -142,11 +139,6 @@ packages:
   '@babel/types@7.29.0':
     resolution: {integrity: sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A==}
     engines: {node: '>=6.9.0'}
-
-  '@base/bridge@file:../bridge/clients/ts':
-    resolution: {directory: ../bridge/clients/ts, type: directory}
-    peerDependencies:
-      '@solana/kit': 4.0.0
 
   '@emnapi/core@1.9.2':
     resolution: {integrity: sha512-UC+ZhH3XtczQYfOlu3lNEkdW/p4dsJ1r/bP7H8+rhao3TTTMO1ATq/4DdIi23XuGoFY+Cz0JmCbdVl0hz9jZcA==}
@@ -2585,10 +2577,6 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
-
-  '@base/bridge@file:../bridge/clients/ts(@solana/kit@6.8.0(typescript@5.9.3))':
-    dependencies:
-      '@solana/kit': 6.8.0(typescript@5.9.3)
 
   '@emnapi/core@1.9.2':
     dependencies:
