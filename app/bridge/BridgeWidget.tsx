@@ -65,8 +65,8 @@ export function BridgeWidget() {
   const { connected } = useWalletContext();
   const [form, setForm] = useState<FormState>({
     deployEnv: "testnet-prod",
-    mint: "constant",
-    remoteToken: "constant",
+    mint: CONFIGS["testnet-prod"].solana.jitoSol,
+    remoteToken: CONFIGS["testnet-prod"].base.wJitoSol,
     to: "",
     amount: "",
     payForRelay: true,
@@ -101,12 +101,8 @@ export function BridgeWidget() {
       const walletAddr = address(connected.account.address as string);
       const payer = addressSigner(walletAddr);
 
-      const mintAddress =
-        form.mint === "constant" ? config.solana.spl : address(form.mint as Address);
-      const remoteTokenAddress =
-        form.remoteToken === "constant"
-          ? config.base.wSpl
-          : (form.remoteToken as `0x${string}`);
+      const mintAddress = address(form.mint as Address);
+      const remoteTokenAddress = form.remoteToken as `0x${string}`;
 
       setStatus({ type: "pending", message: "Fetching on-chain data…" });
 
@@ -254,21 +250,23 @@ export function BridgeWidget() {
         </select>
       </Field>
 
-      <Field label="Mint" hint="Solana address, or 'constant' for the default test SPL">
-        <input
-          value={form.mint}
-          onChange={(e) => setField("mint", e.target.value)}
-          className={inputCls}
-        />
-      </Field>
+      <TokenSelect
+        label="Mint"
+        value={form.mint}
+        onChange={(v) => setField("mint", v)}
+        options={[
+          { label: "JitoSOL", value: CONFIGS[form.deployEnv].solana.jitoSol },
+        ]}
+      />
 
-      <Field label="Remote Token" hint="ERC-20 address on Base, or 'constant' for default">
-        <input
-          value={form.remoteToken}
-          onChange={(e) => setField("remoteToken", e.target.value)}
-          className={inputCls}
-        />
-      </Field>
+      <TokenSelect
+        label="Remote Token"
+        value={form.remoteToken}
+        onChange={(v) => setField("remoteToken", v)}
+        options={[
+          { label: "wJITOSOL", value: CONFIGS[form.deployEnv].base.wJitoSol },
+        ]}
+      />
 
       <Field label="Recipient (Base address)">
         <input
@@ -353,6 +351,67 @@ function Field({
       <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">{label}</label>
       {children}
       {hint && <p className="text-xs text-zinc-400">{hint}</p>}
+    </div>
+  );
+}
+
+function TokenSelect({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: { label: string; value: string }[];
+}) {
+  const isCustom = !options.some((o) => o.value === value);
+
+  return (
+    <div className="flex flex-col gap-1.5">
+      <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">{label}</span>
+      <div className="flex flex-wrap gap-1.5">
+        {options.map((o) => (
+          <button
+            key={o.value}
+            type="button"
+            title={o.value}
+            onClick={() => onChange(o.value)}
+            className={`flex flex-col items-start px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors ${
+              value === o.value
+                ? "bg-black text-white border-black dark:bg-white dark:text-black dark:border-white"
+                : "border-zinc-200 text-zinc-600 hover:border-zinc-400 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500"
+            }`}
+          >
+            <span>{o.label}</span>
+            <span className={`font-mono text-[10px] mt-0.5 ${value === o.value ? "opacity-70" : "opacity-50"}`}>
+              {o.value.slice(0, 6)}…{o.value.slice(-4)}
+            </span>
+          </button>
+        ))}
+        <button
+          type="button"
+          onClick={() => { if (!isCustom) onChange(""); }}
+          className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors ${
+            isCustom
+              ? "bg-black text-white border-black dark:bg-white dark:text-black dark:border-white"
+              : "border-zinc-200 text-zinc-600 hover:border-zinc-400 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500"
+          }`}
+        >
+          Custom
+        </button>
+      </div>
+      {isCustom && (
+        <input
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="Enter address…"
+          className={inputCls}
+        />
+      )}
     </div>
   );
 }
