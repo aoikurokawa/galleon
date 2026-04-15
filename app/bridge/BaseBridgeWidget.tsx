@@ -154,12 +154,12 @@ function BridgeForm({
       if (isNaN(amount) || amount <= 0) throw new Error("Amount must be a positive number");
 
       const localToken = form.localToken === "constant"
-        ? config.base.wSpl
+        ? config.base.wJitoSol
         : (form.localToken as EvmAddress);
 
       const remoteTokenSolAddress =
         form.remoteToken === "constant"
-          ? config.solana.spl
+          ? config.solana.jitoSol
           : solAddress(form.remoteToken as ReturnType<typeof solAddress>);
 
       const remoteTokenBytes32 = solanaAddressToBytes32(remoteTokenSolAddress);
