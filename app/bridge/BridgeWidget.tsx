@@ -209,7 +209,16 @@ export function BridgeWidget() {
 
       if (form.payForRelay) startRelayPolling(form.deployEnv, outgoingMessage);
     } catch (e) {
-      setStatus({ type: "error", message: String(e) });
+      const msg = e instanceof Error ? e.message : String(e);
+      const isRejected =
+        msg.includes("User rejected") ||
+        msg.includes("User denied") ||
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (e as any)?.code === 4001;
+      setStatus({
+        type: "error",
+        message: isRejected ? "Transaction rejected." : msg.split("\n")[0],
+      });
     }
   }
 
