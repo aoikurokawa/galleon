@@ -65,8 +65,8 @@ export function BridgeWidget() {
   const { connected } = useWalletContext();
   const [form, setForm] = useState<FormState>({
     deployEnv: "testnet-prod",
-    mint: "constant",
-    remoteToken: "constant",
+    mint: "J1tos8mqbhdGcF3pgj4PCKyVjzWSURcpLZU7pPGHxSYi",
+    remoteToken: "0x637A68e6a62C17Dd6e079b515A10D7c4a9B09736",
     to: "",
     amount: "",
     payForRelay: true,
